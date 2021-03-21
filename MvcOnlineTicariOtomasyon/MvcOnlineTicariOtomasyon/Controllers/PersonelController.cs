@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -32,6 +33,23 @@ namespace MvcOnlineTicariOtomasyon.Controllers
         [HttpPost]
         public ActionResult PersonelEkle(Personel p)
         {
+            if (Request.Files.Count > 0)
+
+            {
+
+                var extention = Path.GetExtension(Request.Files[0].FileName);
+
+                var randomName = string.Format($"{DateTime.Now.Ticks}{extention}");
+
+                //var randomName = string.Format($"{Guid.NewGuid().ToString().Replace("-", "")}{extention}");
+
+                p.PersonelGorsel = "/images/" + randomName;
+
+                var path = "~/images/" + randomName;
+
+                Request.Files[0].SaveAs(Server.MapPath(path));
+
+            }
             c.Personels.Add(p);
             c.SaveChanges();
             return RedirectToAction("Index");
@@ -50,6 +68,23 @@ namespace MvcOnlineTicariOtomasyon.Controllers
         }
         public ActionResult PersonelGuncelle (Personel p)
         {
+            if (Request.Files.Count > 0)
+
+            {
+
+                var extention = Path.GetExtension(Request.Files[0].FileName);
+
+                var randomName = string.Format($"{DateTime.Now.Ticks}{extention}");
+
+                //var randomName = string.Format($"{Guid.NewGuid().ToString().Replace("-", "")}{extention}");
+
+                p.PersonelGorsel = "/images/" + randomName;
+
+                var path = "~/images/" + randomName;
+
+                Request.Files[0].SaveAs(Server.MapPath(path));
+
+            }
             var prsn = c.Personels.Find(p.PersonelID);
             prsn.PersonelAd = p.PersonelAd;
             prsn.PersonelSoyad = p.PersonelSoyad;
